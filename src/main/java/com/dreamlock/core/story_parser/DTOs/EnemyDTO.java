@@ -1,13 +1,18 @@
 package com.dreamlock.core.story_parser.DTOs;
 
 public class EnemyDTO {
-    private int id;
-    private String path;
+    private final int id;
+    private final String path;
     private String name;
     private String description;
     private int health;
     private int attack;
     private int defense;
+
+    public EnemyDTO(int id, String path) {
+        this.id = id;
+        this.path = path;
+    }
 
     public int getId() {
         return id;

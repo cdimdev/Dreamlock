@@ -12,10 +12,8 @@ import java.io.InputStreamReader;
 public class Dreamlock {
     public static void main (String[] args) {
         BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
-        GameUtils gameUtils = new GameUtils();
-
         String input = "";
-        Boolean MainGameRunning = true;
+        boolean MainGameRunning = true;
 
         while (MainGameRunning) {
             createMainMenu();

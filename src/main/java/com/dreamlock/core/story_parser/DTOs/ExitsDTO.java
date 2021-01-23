@@ -1,10 +1,17 @@
 package com.dreamlock.core.story_parser.DTOs;
 
 public class ExitsDTO {
-    private int north;
-    private int east;
-    private int south;
-    private int west;
+    private final int north;
+    private final int east;
+    private final int south;
+    private final int west;
+
+    public ExitsDTO(int north, int east, int south, int west) {
+        this.north = north;
+        this.east = east;
+        this.south = south;
+        this.west = west;
+    }
 
     public int getNorth() {
         return north;

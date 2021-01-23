@@ -84,8 +84,7 @@ public class TurnBattle implements Serializable{
         return true;
     }
 
-    public boolean fledFromBattle() {
+    public void fledFromBattle() {
         inCombat = false;
-        return true;
     }
 }

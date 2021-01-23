@@ -1,8 +1,13 @@
 package com.dreamlock.core.story_parser.DTOs;
 
 public class ItemDTO {
-    private String path;
-    private int id;
+    private final String path;
+    private final int id;
+
+    public ItemDTO(String path, int id) {
+        this.path = path;
+        this.id = id;
+    }
 
     public String getPath() {
         return path;

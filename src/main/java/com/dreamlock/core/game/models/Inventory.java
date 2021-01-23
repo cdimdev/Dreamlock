@@ -12,7 +12,7 @@ public class Inventory implements Serializable {
 
     public Inventory(int size) {
         this.size = size;
-        this.items = new ArrayList<Item>();
+        this.items = new ArrayList<>();
     }
 
     public Inventory(List<Item> items, int size) {

@@ -39,10 +39,6 @@ public class Player extends Combatant implements Serializable {
         return inventory;
     }
 
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
-
 
     public void equipItem(Item item) {
         switch (item.getEquipmentSlot()) {

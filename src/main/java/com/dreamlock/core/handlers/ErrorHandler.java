@@ -23,8 +23,8 @@ public class ErrorHandler implements IHandler {
     public List<OutputMessage> handle() {
         List<OutputMessage> messageIds = new ArrayList<>();
 
-        Boolean hasForbiddenWords = parsedJsonObject.get("forbidden").getAsBoolean();
-        Boolean hasQuestion = parsedJsonObject.get("has_question").getAsBoolean();
+        boolean hasForbiddenWords = parsedJsonObject.get("forbidden").getAsBoolean();
+        boolean hasQuestion = parsedJsonObject.get("has_question").getAsBoolean();
 
         if (hasForbiddenWords) {
             Random random = new Random();
@@ -57,7 +57,7 @@ public class ErrorHandler implements IHandler {
         }
 
 
-        Integer correctWords = parsedJsonObject.get("correctWords").getAsInt();
+        int correctWords = parsedJsonObject.get("correctWords").getAsInt();
 
         if (correctWords == 0) {
             if (!parsedJsonObject.get("empty").getAsBoolean()) {
@@ -126,7 +126,7 @@ public class ErrorHandler implements IHandler {
         }
         if (question.equals(possibleQuestions.get(9))) {
             Integer randomInt = random.nextInt(5);
-            Integer age = random.nextInt(100);
+            int age = random.nextInt(100);
             gameContext.registerMessage("I am " + age + " years old" , 9300);
             switch (randomInt) {
                 case 1:
@@ -180,7 +180,7 @@ public class ErrorHandler implements IHandler {
         }
 
         if (question.equals(possibleQuestions.get(13)) || question.equals(possibleQuestions.get(14)) || question.equals(possibleQuestions.get(15))) {
-            Integer randomInt = random.nextInt(3);
+            int randomInt = random.nextInt(3);
             switch (randomInt) {
                 case 1:
                     messageIds.add(new OutputMessage(2212, PrintStyle.ONLY_TITLE));

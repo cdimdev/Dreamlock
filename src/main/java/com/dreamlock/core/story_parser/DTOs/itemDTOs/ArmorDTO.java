@@ -3,15 +3,28 @@ package com.dreamlock.core.story_parser.DTOs.itemDTOs;
 import com.dreamlock.core.game.constants.EquipmentSlot;
 
 public class ArmorDTO {
-    private int id;
-    private String type;
-    private String name;
-    private String description;
-    private String defense;
-    private String stamina;
-    private String strength;
-    private String agility;
-    private String equipmentSlot;
+    private final int id;
+    private final String type;
+    private final String name;
+    private final String description;
+    private final String defense;
+    private final String stamina;
+    private final String strength;
+    private final String agility;
+    private final String equipmentSlot;
+
+    public ArmorDTO(int id, String type, String name, String description, String defense,
+        String stamina, String strength, String agility, String equipmentSlot) {
+        this.id = id;
+        this.type = type;
+        this.name = name;
+        this.description = description;
+        this.defense = defense;
+        this.stamina = stamina;
+        this.strength = strength;
+        this.agility = agility;
+        this.equipmentSlot = equipmentSlot;
+    }
 
     public EquipmentSlot getEquipmentSlot() {
         if(equipmentSlot.equalsIgnoreCase("head"))

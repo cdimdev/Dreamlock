@@ -49,7 +49,7 @@ public class GameUtils {
     public GameContext LoadStory() {
         File folder = new File("saves/");
         File[] listOfFiles = folder.listFiles();
-        if (!folder.exists() || listOfFiles.length == 0) {
+        if (!folder.exists() || Objects.requireNonNull(listOfFiles).length == 0) {
             System.out.println("There are no saved games to load from!!");
             try {
                 System.out.println("Press Enter to continue...");

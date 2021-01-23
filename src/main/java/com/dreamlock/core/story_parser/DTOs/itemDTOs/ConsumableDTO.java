@@ -1,16 +1,31 @@
 package com.dreamlock.core.story_parser.DTOs.itemDTOs;
 
 public class ConsumableDTO {
-    private int id;
-    private String type;
-    private String state;
-    private String name;
-    private String description;
-    private String effect;
-    private int healthStat;
-    private int staminaStat;
-    private int strengthStat;
-    private int agilityStat;
+    private final int id;
+    private final String type;
+    private final String state;
+    private final String name;
+    private final String description;
+    private final String effect;
+    private final int healthStat;
+    private final int staminaStat;
+    private final int strengthStat;
+    private final int agilityStat;
+
+    public ConsumableDTO(int id, String type, String state, String name,
+        String description, String effect, int healthStat, int staminaStat, int strengthStat,
+        int agilityStat) {
+        this.id = id;
+        this.type = type;
+        this.state = state;
+        this.name = name;
+        this.description = description;
+        this.effect = effect;
+        this.healthStat = healthStat;
+        this.staminaStat = staminaStat;
+        this.strengthStat = strengthStat;
+        this.agilityStat = agilityStat;
+    }
 
     public int getId() {
         return id;

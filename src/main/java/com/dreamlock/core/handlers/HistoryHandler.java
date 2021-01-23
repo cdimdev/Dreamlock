@@ -25,7 +25,7 @@ public class HistoryHandler implements IHandler {
     @Override
     public List<OutputMessage> handle() {
         List<String> history = gameContext.getHistory().getHistory();
-        Boolean hasException = false;
+        boolean hasException = false;
         for (HistoryExceptions exception : HistoryExceptions.values()) {
             if (history.get(history.size()-1).contains(exception.toString())) {
                 hasException = true;
@@ -68,13 +68,12 @@ public class HistoryHandler implements IHandler {
             return counter;
         }
 
-        if (listSize >= 2) {
-            int i = 2;
-            while (i <= listSize && commandList.get(listSize-1).equals(commandList.get(listSize - i))) {
-                counter ++;
-                i ++;
-            }
+        int i = 2;
+        while (i <= listSize && commandList.get(listSize-1).equals(commandList.get(listSize - i))) {
+            counter ++;
+            i ++;
         }
+
         return counter;
     }
 }

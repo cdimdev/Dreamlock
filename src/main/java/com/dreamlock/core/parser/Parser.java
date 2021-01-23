@@ -27,7 +27,7 @@ public class Parser {
         if (rules.getRule(stringBuilder.toString())) {
             output = parseFullyCorrectString(lexemes, stringBuilder);
         } else {
-            output = parseNotCorrectCommand(lexemes, stringBuilder);
+            output = parseNotCorrectCommand(lexemes);
         }
         return output;
     }
@@ -87,7 +87,7 @@ public class Parser {
         return output;
     }
 
-    private JsonObject parseNotCorrectCommand(List<Lexeme> lexemes, StringBuilder stringBuilder) {
+    private JsonObject parseNotCorrectCommand(List<Lexeme> lexemes) {
         Rules rules = Rules.INSTANCE;
 
         StringBuilder ruleStringBuilder = new StringBuilder();

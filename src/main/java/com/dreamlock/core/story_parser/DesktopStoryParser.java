@@ -253,8 +253,8 @@ public class DesktopStoryParser implements IStoryParser {
 
       String name = jsonDoorObject.get("name").getAsString();
       String direction = doorDTO.getDirection();
-      Integer key = jsonDoorObject.get("key").getAsInt();
-      Integer id = jsonDoorObject.get("id").getAsInt();
+      int key = jsonDoorObject.get("key").getAsInt();
+      int id = jsonDoorObject.get("id").getAsInt();
 
       Door door = new Door(name, direction, id, key);
 
@@ -267,7 +267,7 @@ public class DesktopStoryParser implements IStoryParser {
    * Checks if 2+ rooms have an exit to the same room on the same direction
    */
   protected Boolean checkDuplicateRooms() {
-    Boolean isDuplicate = false;
+    boolean isDuplicate = false;
     HashMap<String, Room> thisExits;
     HashMap<String, Room> nextExits;
     int i = 0, j;
