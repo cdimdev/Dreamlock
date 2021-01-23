@@ -5,9 +5,7 @@ import com.dreamlock.core.game.constants.ItemType;
 import com.dreamlock.core.game.models.OutputMessage;
 import com.dreamlock.core.game.states.IState;
 import com.dreamlock.core.message_system.constants.PrintStyle;
-import com.dreamlock.core.story_parser.items.Armor;
 import com.dreamlock.core.story_parser.items.Item;
-import com.dreamlock.core.story_parser.items.Weapon;
 
 public class CanEquip implements IState {
     @Override
@@ -22,11 +20,11 @@ public class CanEquip implements IState {
         Item forInv = null;
 
         if(item.getType().equals(ItemType.ARMOR)){
-            forInv = (Armor) context.getPlayer().getSlot(((Armor) item).getEquipmentSlot());
+            forInv = context.getPlayer().getSlot(item.getEquipmentSlot());
 
         }
         else if(item.getType().equals(ItemType.WEAPON)){
-            forInv = (Weapon) context.getPlayer().getSlot(((Weapon) item).getEquipmentSlot());
+            forInv = context.getPlayer().getSlot(item.getEquipmentSlot());
         }
 
         if(forInv != null)

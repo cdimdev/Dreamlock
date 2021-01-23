@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Equip implements ICommand {
+
     @Override
     public List<OutputMessage> execute(IGameContext gameContext) {
         return null;
@@ -26,7 +27,8 @@ public class Equip implements ICommand {
         List<OutputMessage> outputMessages = new ArrayList<>();
         CommandUtils commandUtils = new CommandUtils(gameContext);
         Word word = words.get(Sequence.SECOND);
-        Availability itemAvailability = commandUtils.checkItemAvailability(word, commandUtils.inventoryItems);
+        Availability itemAvailability = commandUtils
+            .checkItemAvailability(word, commandUtils.inventoryItems);
 
         switch (itemAvailability) {
             case NON_EXISTENT:
@@ -39,40 +41,12 @@ public class Equip implements ICommand {
                 break;
             case UNIQUE:
                 Item foundItem = commandUtils.getInventoryItem(word);
-                outputMessages.add(new OutputMessage(foundItem.getId(), PrintStyle.ONLY_TITLE_IN_SAME_LINE));
+                outputMessages
+                    .add(new OutputMessage(foundItem.getId(), PrintStyle.ONLY_TITLE_IN_SAME_LINE));
                 outputMessages.add(foundItem.doAction(ActionState.EQUIP, gameContext));
                 outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
                 break;
         }
         return outputMessages;
-
-
-
-//
-//        boolean itemExists = gameContext.getPlayer().getInventory().containsItem(words.get(2));
-//
-//
-//
-//
-//        if (itemExists) {
-//            int duplicates = gameContext.getPlayer().getInventory().hasDuplicates(words.get(2));
-//            int itemCount = gameContext.getPlayer().getInventory().getItemCount(words.get(2));
-//            if (duplicates == 1 || itemCount>1){
-//                Item item = gameContext.getPlayer().getInventory().getSpecificItem(words.get(2));
-//                outputMessages.add(new OutputMessage(item.getId(), PrintStyle.ONLY_TITLE_IN_SAME_LINE));
-//                outputMessages.add(item.doAction(ActionState.EQUIP, gameContext));
-//                outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
-//                return outputMessages;
-//            }
-//            else {
-//                outputMessages.add(new OutputMessage(2001, PrintStyle.ONLY_TITLE));
-//                outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
-//                return outputMessages;
-//            }
-//        }
-//
-//        outputMessages.add(new OutputMessage(1042, PrintStyle.ONLY_TITLE));
-//        return outputMessages;
     }
 }
-

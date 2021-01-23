@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class StringMessageHandler implements Serializable, IMessageHandler {
-    private Map<Integer, IMessage> messages;
+    private final Map<Integer, IMessage> messages;
 
     public StringMessageHandler() {
         messages = new HashMap<>();
@@ -70,7 +70,7 @@ public class StringMessageHandler implements Serializable, IMessageHandler {
                     System.out.println(((EffectMessage) message).getEffect());
                     break;
                 case BREAK:
-                    System.out.println("");
+                    System.out.println();
                     break;
                 case NUMBER:
                     System.out.print(outputMessage.getId());

@@ -2,7 +2,6 @@ package com.dreamlock.core.game.commands;
 
 import com.dreamlock.core.game.IGameContext;
 import com.dreamlock.core.game.constants.Availability;
-import com.dreamlock.core.game.constants.EquipmentSlot;
 import com.dreamlock.core.game.constants.ItemType;
 import com.dreamlock.core.game.constants.Stats;
 import com.dreamlock.core.game.models.Door;
@@ -14,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandUtils {
-    IGameContext gameContext;
-    List <Item> inventoryItems;
-    List <Item> roomItems;
-    List <Door> roomDoors;
+    final IGameContext gameContext;
+    final List <Item> inventoryItems;
+    final List <Item> roomItems;
+    final List <Door> roomDoors;
 
 
     CommandUtils(IGameContext gameContext) {

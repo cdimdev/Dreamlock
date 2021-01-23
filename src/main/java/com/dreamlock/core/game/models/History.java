@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class History implements Serializable {
-    private List<String> history;
+    private final List<String> history;
 
     public History() {
         history = new ArrayList<>();

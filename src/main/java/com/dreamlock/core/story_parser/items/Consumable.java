@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class Consumable extends Item {
     private String effect;
-    private String state;
+    private final String state;
 
     public Consumable(String jsonItem) {
         Gson gson = new Gson();

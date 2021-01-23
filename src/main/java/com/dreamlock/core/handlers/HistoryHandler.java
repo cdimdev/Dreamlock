@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryHandler implements IHandler {
-    private IGameContext gameContext;
+    private final IGameContext gameContext;
 
     public HistoryHandler(IGameContext gameContext) {
         this.gameContext = gameContext;

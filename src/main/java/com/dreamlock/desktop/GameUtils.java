@@ -125,6 +125,6 @@ public class GameUtils {
             }
             System.out.println(sb);
         }
-        System.out.println("");
+        System.out.println();
     }
 }

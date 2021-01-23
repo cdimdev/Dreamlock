@@ -203,11 +203,6 @@ public abstract class Combatant implements Serializable{
 
     public boolean isEmptySlot(EquipmentSlot equipmentSlot){
         Item item = getSlot(equipmentSlot);
-        if (item == null) {
-            return true;
-        }
-        else {
-            return false;
-        }
+      return item == null;
     }
 }

@@ -16,13 +16,9 @@ public class CanUse implements IState {
     @Override
     public OutputMessage doAction(IGameContext context, Item item) {
         ItemType itemType = item.getType();
-        switch (itemType) {
-            case CONSUMABLE:
-                context.getPlayer().calculateStats();
-                context.getPlayer().addStats(item.getStats());
-                break;
-            default:
-                break;
+        if (itemType == ItemType.CONSUMABLE) {
+            context.getPlayer().calculateStats();
+            context.getPlayer().addStats(item.getStats());
         }
         context.getPlayer().getInventory().removeItem(item);
         return new OutputMessage(item.getId(), PrintStyle.ONLY_EFFECT);

@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 public class CommandHandler implements IHandler {
-    private JsonObject parsedJsonObject;
-    private IGameContext gameContext;
+    private final JsonObject parsedJsonObject;
+    private final IGameContext gameContext;
 
     public CommandHandler(JsonObject parsedJsonObject, IGameContext gameContext) {
         this.parsedJsonObject = parsedJsonObject;

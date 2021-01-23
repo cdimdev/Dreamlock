@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Random;
 
 public class ErrorHandler implements IHandler {
-    private JsonObject parsedJsonObject;
-    private IGameContext gameContext;
+    private final JsonObject parsedJsonObject;
+    private final IGameContext gameContext;
 
     public ErrorHandler(JsonObject parsedJsonObject, IGameContext gameContext) {
         this.parsedJsonObject = parsedJsonObject;
@@ -94,12 +94,10 @@ public class ErrorHandler implements IHandler {
 
         if (question.equals(possibleQuestions.get(6)) || question.equals(possibleQuestions.get(7)) ) {
             Integer randomInt = random.nextInt(2);
-            switch (randomInt) {
-                case 1:
-                    messageIds.add(new OutputMessage(2200, PrintStyle.ONLY_TITLE));
-                    break;
-                default:
-                    messageIds.add(new OutputMessage(2201, PrintStyle.ONLY_TITLE));
+            if (randomInt == 1) {
+                messageIds.add(new OutputMessage(2200, PrintStyle.ONLY_TITLE));
+            } else {
+                messageIds.add(new OutputMessage(2201, PrintStyle.ONLY_TITLE));
             }
             messageIds.add(new OutputMessage(0, PrintStyle.BREAK));
             return messageIds;
@@ -152,12 +150,10 @@ public class ErrorHandler implements IHandler {
         }
         if (question.equals(possibleQuestions.get(10))) {
             Integer randomInt = random.nextInt(2);
-            switch (randomInt) {
-                case 1:
-                    messageIds.add(new OutputMessage(2205, PrintStyle.ONLY_TITLE));
-                    break;
-                default:
-                    messageIds.add(new OutputMessage(2204, PrintStyle.ONLY_TITLE));
+            if (randomInt == 1) {
+                messageIds.add(new OutputMessage(2205, PrintStyle.ONLY_TITLE));
+            } else {
+                messageIds.add(new OutputMessage(2204, PrintStyle.ONLY_TITLE));
             }
 
             messageIds.add(new OutputMessage(0, PrintStyle.BREAK));
@@ -174,12 +170,10 @@ public class ErrorHandler implements IHandler {
             gameContext.registerMessage("You are '" + name + "'" , 9301);
 
             Integer randomInt = random.nextInt(2);
-            switch (randomInt) {
-                case 1:
-                    messageIds.add(new OutputMessage(2206, PrintStyle.ONLY_TITLE));
-                    break;
-                default:
-                    messageIds.add(new OutputMessage(9301, PrintStyle.ONLY_TITLE));
+            if (randomInt == 1) {
+                messageIds.add(new OutputMessage(2206, PrintStyle.ONLY_TITLE));
+            } else {
+                messageIds.add(new OutputMessage(9301, PrintStyle.ONLY_TITLE));
             }
             messageIds.add(new OutputMessage(0, PrintStyle.BREAK));
             return messageIds;
