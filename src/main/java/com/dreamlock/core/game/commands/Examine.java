@@ -28,34 +28,54 @@ public class Examine implements ICommand {
         CommandUtils commandUtils = new CommandUtils(gameContext);
         Word word = words.get(Sequence.SECOND);
         List<Item> items = new ArrayList<>();
-        boolean isItem = false;
         items.addAll(commandUtils.inventoryItems);
         items.addAll(commandUtils.roomItems);
 
-        Availability itemAvailability = commandUtils.checkItemAvailability(word, items);
+         boolean isItem = examineItem(outputMessages, commandUtils, word, items);
 
-        switch (itemAvailability) {
+        if (!isItem) {
+            examineDoor(words, outputMessages, commandUtils);
+        }
+
+        return outputMessages;
+    }
+
+    private void examineDoor(Map<Sequence, Word> words, List<OutputMessage> outputMessages,
+        CommandUtils commandUtils) {
+        Availability doorAvailability = commandUtils
+            .checkDoorAvailability(words.get(Sequence.SECOND), commandUtils.roomDoors);
+
+        switch (doorAvailability) {
             case NON_EXISTENT:
-                isItem = false;
+                outputMessages.add(new OutputMessage(1020, PrintStyle.ONLY_TITLE));           // I can't find anything with that name!
+                outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
                 break;
             case UNIQUE:
-                isItem = true;
-                Item item = commandUtils.getItem(word);
-                if (item.getType().equals(ItemType.CONTAINER)) {            // if item is a container
-                    Container containerItem = (Container) item;
-                    if (!(boolean) containerItem.getStats().get(Stats.LOCKED)) {
-                        outputMessages.add(new OutputMessage(item.getId(), PrintStyle.TITLE_DESCRIPTION));
-                        outputMessages.add(new OutputMessage(1154, PrintStyle.ONLY_TITLE));
+                Door door = commandUtils.roomDoors.get(0);
+                outputMessages.add(new OutputMessage(door.getId(), PrintStyle.ONLY_DESCRIPTION_IN_SAME_LINE));   // item to print
+                if (door.isLocked()) {
+                    outputMessages.add(new OutputMessage(2003, PrintStyle.ONLY_TITLE));
+                } else {
+                    outputMessages.add(new OutputMessage(2004, PrintStyle.ONLY_TITLE));
+                }
+                outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
+                break;
+            case DUPLICATE:
+                outputMessages.add(new OutputMessage(2002, PrintStyle.ONLY_TITLE));
+                outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
+                break;
+        }
+    }
 
-                        for (Item item1 : containerItem.getItems()) {
-                            outputMessages.add(new OutputMessage(item1.getId(), PrintStyle.ONLY_TITLE));
-                        }
-                    }
-                }
-                else {                                                      // if item is not a container
-                    outputMessages.add(new OutputMessage(item.getId(), PrintStyle.TITLE_DESCRIPTION));
-                    outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
-                }
+    private boolean examineItem(List<OutputMessage> outputMessages, CommandUtils commandUtils,
+        Word word, List<Item> items) {
+        Availability itemAvailability = commandUtils.checkItemAvailability(word, items);
+        boolean isItem = false;
+        switch (itemAvailability) {
+            case NON_EXISTENT:
+                break;
+            case UNIQUE:
+                isItem = examineUniqueItem(outputMessages, commandUtils, word);
                 break;
             case DUPLICATE:
                 isItem = true;
@@ -63,32 +83,27 @@ public class Examine implements ICommand {
                 outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
                 break;
         }
+        return isItem;
+    }
 
-        if (!isItem) {
-            Availability doorAvailability = commandUtils.checkDoorAvailability(words.get(Sequence.SECOND), commandUtils.roomDoors);
+    private boolean examineUniqueItem(List<OutputMessage> outputMessages, CommandUtils commandUtils,
+        Word word) {
+        Item item = commandUtils.getItem(word);
+        if (item.getType().equals(ItemType.CONTAINER)) {            // if item is a container
+            Container containerItem = (Container) item;
+            if (!(boolean) containerItem.getStats().get(Stats.LOCKED)) {
+                outputMessages.add(new OutputMessage(item.getId(), PrintStyle.TITLE_DESCRIPTION));
+                outputMessages.add(new OutputMessage(1154, PrintStyle.ONLY_TITLE));
 
-            switch (doorAvailability) {
-                case NON_EXISTENT:
-                    outputMessages.add(new OutputMessage(1020, PrintStyle.ONLY_TITLE));           // I can't find anything with that name!
-                    outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
-                    break;
-                case UNIQUE:
-                    Door door = commandUtils.roomDoors.get(0);
-                    outputMessages.add(new OutputMessage(door.getId(), PrintStyle.ONLY_DESCRIPTION_IN_SAME_LINE));   // item to print
-                    if (door.isLocked()) {
-                        outputMessages.add(new OutputMessage(2003, PrintStyle.ONLY_TITLE));
-                    } else {
-                        outputMessages.add(new OutputMessage(2004, PrintStyle.ONLY_TITLE));
-                    }
-                    outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
-                    break;
-                case DUPLICATE:
-                    outputMessages.add(new OutputMessage(2002, PrintStyle.ONLY_TITLE));
-                    outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
-                    break;
+                for (Item item1 : containerItem.getItems()) {
+                    outputMessages.add(new OutputMessage(item1.getId(), PrintStyle.ONLY_TITLE));
+                }
             }
         }
-
-        return outputMessages;
+        else {                                                      // if item is not a container
+            outputMessages.add(new OutputMessage(item.getId(), PrintStyle.TITLE_DESCRIPTION));
+            outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
+        }
+        return true;
     }
 }
