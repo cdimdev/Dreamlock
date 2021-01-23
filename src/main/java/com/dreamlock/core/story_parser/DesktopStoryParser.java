@@ -1,4 +1,3 @@
-
 package com.dreamlock.core.story_parser;
 
 import com.dreamlock.core.game.models.Door;
@@ -20,9 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class DesktopStoryParser implements IStoryParser {
-
-  protected final HashMap<Integer, Room> rooms;
-  protected final Gson gson;
+  protected HashMap<Integer, Room> rooms;
+  protected Gson gson;
   protected RoomDTO[] roomDTOs;
 
   public DesktopStoryParser() {
@@ -32,18 +30,16 @@ public class DesktopStoryParser implements IStoryParser {
 
   /**
    * Read data from file (json)
-   *
-   * @param file file name
-   * @return json string from a file
+   * @param file      file name
+   * @return          json string from a file
    */
   @Override
   public String read(String file) {
     // build json string from file
     String jsonStr = "";
-    String temp;
+    String temp ;
     try {
-      BufferedReader in = new BufferedReader(
-          new InputStreamReader(getClass().getResourceAsStream(file)));
+      BufferedReader in = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(file)));
       temp = in.readLine();
       while (temp != null) {
         jsonStr += temp;
@@ -59,8 +55,7 @@ public class DesktopStoryParser implements IStoryParser {
 
   /**
    * Parse the main story file
-   *
-   * @param file file name
+   * @param file      file name
    */
   @Override
   public void parseWorld(String file) {
@@ -71,8 +66,7 @@ public class DesktopStoryParser implements IStoryParser {
 
     for (RoomDTO roomDTO : roomDTOs) {                                          // for every worldDTO
       Room room = new Room();
-      String roomPath = roomDTO
-          .getPath();                                    // get the path of room
+      String roomPath = roomDTO.getPath();                                    // get the path of room
       String jsonRoom = read(roomPath);                                       // read the file-room
       JsonElement roomElement = gson.fromJson(jsonRoom, JsonElement.class);   // store data
       JsonObject jsonRoomObj = roomElement.getAsJsonObject();
@@ -96,8 +90,7 @@ public class DesktopStoryParser implements IStoryParser {
     parseExits();
 
     if (checkDuplicateRooms()) {
-      System.err.println(
-          "There are two or more rooms that have an exit to the same room on the same direction!");
+      System.err.println("There are two or more rooms that have an exit to the same room on the same direction!");
       System.exit(0);
     }
   }
@@ -113,12 +106,11 @@ public class DesktopStoryParser implements IStoryParser {
     String jsonOpening = read(file);
     OpeningDTO openingDTO = gson.fromJson(jsonOpening, OpeningDTO.class);
 
-    return new String[]{openingDTO.getOpening(), openingDTO.getWelcome()};
+    return new String[]{openingDTO.getOpening(),openingDTO.getWelcome()};
   }
 
   /**
    * Create all the items
-   *
    * @param itemDTOs
    * @return list with items
    */
@@ -127,22 +119,17 @@ public class DesktopStoryParser implements IStoryParser {
     ItemFactory itemFactory = new ItemFactory();
 
     for (ItemDTO itemDTO : itemDTOs) {                                              // for every item, the room contain
-      String itemPath = itemDTO
-          .getPath();                                        // this is the path of file
-      String jsonItem = read(
-          itemPath);                                           // the string, file contains.
-      JsonElement itemElement = gson
-          .fromJson(jsonItem, JsonElement.class);       // parseWorld to JsonElement
+      String itemPath = itemDTO.getPath();                                        // this is the path of file
+      String jsonItem = read(itemPath);                                           // the string, file contains.
+      JsonElement itemElement = gson.fromJson(jsonItem, JsonElement.class);       // parseWorld to JsonElement
       JsonObject jsonItemObj = itemElement.getAsJsonObject();                     // to JsonObject
-      String type = jsonItemObj.get("type")
-          .getAsString();                        // and take the type
+      String type = jsonItemObj.get("type").getAsString();                        // and take the type
 
-      if (type.equals(
-          "Container")) {                                             //If the item is a container, that contains items, we must parse each individual item
+      if (type.equals("Container")) {                                             //If the item is a container, that contains items, we must parse each individual item
         parseContainerItem(items, itemFactory, jsonItem, jsonItemObj);
-      } else {
-        items.add(itemFactory.createItem(type,
-            jsonItem));                      // create the item and store it in list.
+      }
+      else {
+        items.add(itemFactory.createItem(type, jsonItem));                      // create the item and store it in list.
       }
     }
     return items;
@@ -150,23 +137,18 @@ public class DesktopStoryParser implements IStoryParser {
 
   private void parseContainerItem(List<Item> items, ItemFactory itemFactory, String jsonItem,
       JsonObject jsonItemObj) {
-    List<Item> containerItems = new ArrayList<>();
-    JsonArray itemsPath = jsonItemObj.get("items")
-        .getAsJsonArray();        //get the path of each item, in a string
+    List <Item> containerItems = new ArrayList<>();
+    JsonArray itemsPath = jsonItemObj.get("items").getAsJsonArray();        //get the path of each item, in a string
 
     for (JsonElement path : itemsPath) {
-      String insideItemPath = path.getAsJsonObject().get("path")
-          .getAsString();  //get item's path
-      String containerItem = read(
-          insideItemPath);                        // get Item's fields in a string
+      String insideItemPath = path.getAsJsonObject().get("path").getAsString();  //get item's path
+      String containerItem = read(insideItemPath);                        // get Item's fields in a string
 
-      JsonElement containerItemElement = gson
-          .fromJson(containerItem, JsonElement.class); //build JsonElement from the String
+      JsonElement containerItemElement = gson.fromJson(containerItem, JsonElement.class); //build JsonElement from the String
       JsonObject jsonObject = containerItemElement.getAsJsonObject();     //make it JsonObject
       String containerItemType = jsonObject.get("type").getAsString();    //get the type
 
-      containerItems.add(itemFactory.createItem(containerItemType,
-          containerItem)); // build the item through ItemFactory and store it
+      containerItems.add(itemFactory.createItem(containerItemType,containerItem)); // build the item through ItemFactory and store it
       //  in the list of the container's enclosed items :)
     }
     items.add(itemFactory.createItem(jsonItem, containerItems));
@@ -174,17 +156,15 @@ public class DesktopStoryParser implements IStoryParser {
 
   /**
    * Create all the enemies
-   *
    * @param enemyDTOs
    * @return list with enemies
    */
   protected List<Enemy> parseEnemies(ArrayList<EnemyDTO> enemyDTOs) {
     List<Enemy> enemies = new ArrayList<>();
 
-    for (EnemyDTO enemyDTO : enemyDTOs) {                                        //for every enemy the room contains
+    for (EnemyDTO enemyDTO : enemyDTOs){                                        //for every enemy the room contains
       String enemyPath = enemyDTO.getPath();                                  //path of the room
-      String jsonEnemy = read(
-          enemyPath);                                     //the string the file contains
+      String jsonEnemy = read(enemyPath);                                     //the string the file contains
 
       JsonElement enemyElement = gson.fromJson(jsonEnemy, JsonElement.class); //parse to jsonElement
       JsonObject jsonEnemyObj = enemyElement.getAsJsonObject();               //parse to jsonObject
@@ -238,7 +218,6 @@ public class DesktopStoryParser implements IStoryParser {
 
   /**
    * Create all the room doors
-   *
    * @param doorDTOs
    * @return list with doors
    */
@@ -253,8 +232,8 @@ public class DesktopStoryParser implements IStoryParser {
 
       String name = jsonDoorObject.get("name").getAsString();
       String direction = doorDTO.getDirection();
-      int key = jsonDoorObject.get("key").getAsInt();
-      int id = jsonDoorObject.get("id").getAsInt();
+      Integer key = jsonDoorObject.get("key").getAsInt();
+      Integer id = jsonDoorObject.get("id").getAsInt();
 
       Door door = new Door(name, direction, id, key);
 
@@ -267,13 +246,13 @@ public class DesktopStoryParser implements IStoryParser {
    * Checks if 2+ rooms have an exit to the same room on the same direction
    */
   protected Boolean checkDuplicateRooms() {
-    boolean isDuplicate = false;
+    Boolean isDuplicate = false;
     HashMap<String, Room> thisExits;
     HashMap<String, Room> nextExits;
     int i = 0, j;
-    while (i < roomDTOs.length - 1 && !isDuplicate) {
+    while ( i < roomDTOs.length-1 && !isDuplicate) {
       thisExits = rooms.get(roomDTOs[i].getId()).getExits();
-      j = i + 1;
+      j = i+1;
       while (j < roomDTOs.length && !isDuplicate) {
         nextExits = rooms.get(roomDTOs[j].getId()).getExits();
         for (String direction : thisExits.keySet()) {
