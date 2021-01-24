@@ -75,7 +75,7 @@ public class DesktopStoryParser implements IStoryParser {
       room.setTitle(jsonRoomObj.get("title").getAsString());
       room.setId(jsonRoomObj.get("id").getAsInt());
 
-      ArrayList doors = parseDoors(roomDTO.getDoors());
+      List<Door> doors = parseDoors(roomDTO.getDoors());
       room.setDoors(doors);
 
       List<Item> items = parseItems(roomDTO.getItems());
@@ -221,8 +221,8 @@ public class DesktopStoryParser implements IStoryParser {
    * @param doorDTOs
    * @return list with doors
    */
-  protected ArrayList parseDoors(ArrayList<DoorDTO> doorDTOs) {
-    ArrayList doors = new ArrayList<>();
+  protected List<Door> parseDoors(ArrayList<DoorDTO> doorDTOs) {
+    List<Door> doors = new ArrayList<>();
 
     for (DoorDTO doorDTO : doorDTOs) {
       String doorPath = doorDTO.getPath();
