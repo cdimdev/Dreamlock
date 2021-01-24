@@ -31,7 +31,7 @@ public class Open implements ICommand{
         Availability containerAvailability = commandUtils.checkItemAvailability(openingItem, commandUtils.roomItems);
         Availability doorAvailability = commandUtils.checkDoorAvailability(openingItem, commandUtils.roomDoors);
 
-        if (words.size() > 2) {                                     // when use open with 4 words
+        if (words.size() > 2) {
             executeOpenForMoreThanTwoWords(gameContext, outputMessages, openingItem, keyItem,
                 containerAvailability, doorAvailability);
         }
