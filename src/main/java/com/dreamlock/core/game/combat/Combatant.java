@@ -164,41 +164,34 @@ public abstract class Combatant implements Serializable{
             case HEAD:
                 if(head != null)
                     return head.getValue();
-                else
-                    return null;
+                break;
             case CHEST:
                 if(chest != null)
                     return chest.getValue();
-                else
-                    return null;
+                break;
             case HANDS:
                 if(hands != null)
                     return hands.getValue();
-                else
-                    return null;
+                break;
             case LEGS:
                 if(legs != null)
                     return legs.getValue();
-                else
-                    return null;
+                break;
             case FEET:
                 if(feet != null)
                     return feet.getValue();
-                else
-                    return null;
+                break;
             case MAIN_HAND:
                 if(main_hand != null)
                     return main_hand.getValue();
-                else
-                    return null;
+                break;
             case OFF_HAND:
                 if(off_hand != null)
                     return off_hand.getValue();
-                else
-                    return null;
-            default:
-                return null;
+                break;
         }
+
+        return null;
     }
 
     public boolean isEmptySlot(EquipmentSlot equipmentSlot){
