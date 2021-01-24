@@ -25,9 +25,9 @@ public class Parser {
         JsonObject output;
 
         if (rules.getRule(stringBuilder.toString())) {
-            output = parseFullyCorrectString(lexemes, stringBuilder);
+            output = parseCorrectInputString(lexemes, stringBuilder);
         } else {
-            output = parseNotCorrectCommand(lexemes);
+            output = parseIncorrectInputString(lexemes);
         }
         return output;
     }
@@ -63,7 +63,7 @@ public class Parser {
         return filteredLexemes;
     }
 
-    private JsonObject parseFullyCorrectString(List<Lexeme> lexemes, StringBuilder stringBuilder) {
+    private JsonObject parseCorrectInputString(List<Lexeme> lexemes, StringBuilder stringBuilder) {
         JsonObject output = new JsonObject();
         JsonObject rule = new JsonObject();
         JsonArray sentences = new JsonArray();
@@ -87,7 +87,7 @@ public class Parser {
         return output;
     }
 
-    private JsonObject parseNotCorrectCommand(List<Lexeme> lexemes) {
+    private JsonObject parseIncorrectInputString(List<Lexeme> lexemes) {
         Rules rules = Rules.INSTANCE;
 
         StringBuilder ruleStringBuilder = new StringBuilder();
