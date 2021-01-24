@@ -7,6 +7,5 @@ public enum TokenType {
     CONJUNCTION,
     ARTICLE,
     ADJECTIVE,
-
     UNKNOWN
 }
