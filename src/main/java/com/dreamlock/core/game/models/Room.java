@@ -14,7 +14,7 @@ public class Room implements Serializable {
     private String description;
     private String title;
     private HashMap<String, Room> exits;  // stores the exits of this room.
-    private List<Door> doors;  // stores the doors of this room.
+    private ArrayList<Door> doors;  // stores the doors of this room.
 
     private List<Item> items;
     private int id;
@@ -37,7 +37,7 @@ public class Room implements Serializable {
         this.description = description;
         this.title = title;
         this.exits = new HashMap<>();
-        this.doors = new ArrayList();
+        this.doors = new ArrayList<>();
         this.items = new ArrayList<>();
         this.enemies = new ArrayList<>();
     }
@@ -70,11 +70,11 @@ public class Room implements Serializable {
         this.exits.put(direction, room);
     }
 
-    public List<Door> getDoors() {
+    public ArrayList<Door> getDoors() {
         return doors;
     }
 
-    public void setDoors(List <Door> doors) {
+    public void setDoors(ArrayList<Door> doors) {
         this.doors = doors;
     }
 
