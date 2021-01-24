@@ -32,78 +32,86 @@ public class Open implements ICommand{
         Availability doorAvailability = commandUtils.checkDoorAvailability(openingItem, commandUtils.roomDoors);
 
         if (words.size() > 2) {                                     // when use open with 4 words
-
-            if (doorAvailability.equals(Availability.NON_EXISTENT)) {
-                switch (containerAvailability) {
-                    case NON_EXISTENT:
-                        outputMessages.add(new OutputMessage(1020, PrintStyle.ONLY_TITLE));
-                        break;
-                    case UNIQUE:
-                        if (keyItem != null) {
-                            outputMessages.addAll(openItem(gameContext, openingItem));
-                        } else {
-                            outputMessages.add(new OutputMessage(1155, PrintStyle.ONLY_TITLE));
-                            outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
-                        }
-                        break;
-                    case DUPLICATE:
-                        outputMessages.add(new OutputMessage(2001, PrintStyle.ONLY_TITLE));
-                        outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
-                        break;
-                }
-            }
-            else if (containerAvailability.equals(Availability.NON_EXISTENT)) {
-                switch (doorAvailability) {
-                    case NON_EXISTENT:
-                        outputMessages.add(new OutputMessage(1020, PrintStyle.ONLY_TITLE));
-                        break;
-                    case UNIQUE:
-                        if (keyItem != null) {
-                            outputMessages.addAll(openDoor(gameContext, openingItem));
-                        } else {
-                            outputMessages.add(new OutputMessage(1155, PrintStyle.ONLY_TITLE)); //item doesn't exist in inv.
-                            outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
-                        }
-                        break;
-                    case DUPLICATE:
-                        outputMessages.add(new OutputMessage(2002, PrintStyle.ONLY_TITLE)); // duplicates exist
-                        outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
-                        break;
-                }
-            }
+            executeOpenForMoreThanTwoWords(gameContext, outputMessages, openingItem, keyItem,
+                containerAvailability, doorAvailability);
         }
-        else {          // SIMPLE OPEN COMMAND USED
-            if (doorAvailability.equals(Availability.NON_EXISTENT)) {
-                switch (containerAvailability) {
-                    case NON_EXISTENT:
-                        outputMessages.add(new OutputMessage(1020, PrintStyle.ONLY_TITLE));
-                        break;
-                    case UNIQUE:
-                        outputMessages.addAll(openItem(gameContext, openingItem));
-                        break;
-                    case DUPLICATE:
-                        outputMessages.add(new OutputMessage(2001, PrintStyle.ONLY_TITLE));
-                        outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
-                        break;
-                }
-            }
-            else if (containerAvailability.equals(Availability.NON_EXISTENT)) {
-                switch (doorAvailability) {
-                    case NON_EXISTENT:
-                        outputMessages.add(new OutputMessage(1020, PrintStyle.ONLY_TITLE));
-                        break;
-                    case UNIQUE:
-                        outputMessages.addAll(justOpenDoor(gameContext, openingItem));
-                        break;
-                    case DUPLICATE:
-                        outputMessages.add(new OutputMessage(2002, PrintStyle.ONLY_TITLE));
-                        outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
-                        break;
-                }
-            }
+        else {
+            executeOpenForTwoOrLessWords(gameContext, outputMessages, openingItem,
+                containerAvailability,
+                doorAvailability);
         }
 
         return outputMessages;
+    }
+
+    private void executeOpenForTwoOrLessWords(IGameContext gameContext,
+        List<OutputMessage> outputMessages, Word openingItem, Availability containerAvailability,
+        Availability doorAvailability) {
+        if (doorAvailability.equals(Availability.NON_EXISTENT)) {
+            switch (containerAvailability) {
+                case NON_EXISTENT:
+                    outputMessages.add(new OutputMessage(1020, PrintStyle.ONLY_TITLE));
+                    break;
+                case UNIQUE:
+                    outputMessages.addAll(openItem(gameContext, openingItem));
+                    break;
+                case DUPLICATE:
+                    outputMessages.add(new OutputMessage(2001, PrintStyle.ONLY_TITLE));
+                    outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
+                    break;
+            }
+        }
+        else if (containerAvailability.equals(Availability.NON_EXISTENT)) {
+            switch (doorAvailability) {
+                case UNIQUE:
+                    outputMessages.addAll(justOpenDoor(gameContext, openingItem));
+                    break;
+                case DUPLICATE:
+                    outputMessages.add(new OutputMessage(2002, PrintStyle.ONLY_TITLE));
+                    outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
+                    break;
+            }
+        }
+    }
+
+    private void executeOpenForMoreThanTwoWords(IGameContext gameContext,
+        List<OutputMessage> outputMessages, Word openingItem, Word keyItem,
+        Availability containerAvailability, Availability doorAvailability) {
+        if (doorAvailability.equals(Availability.NON_EXISTENT)) {
+            switch (containerAvailability) {
+                case NON_EXISTENT:
+                    outputMessages.add(new OutputMessage(1020, PrintStyle.ONLY_TITLE));
+                    break;
+                case UNIQUE:
+                    if (keyItem != null) {
+                        outputMessages.addAll(openItem(gameContext, openingItem));
+                    } else {
+                        outputMessages.add(new OutputMessage(1155, PrintStyle.ONLY_TITLE));
+                        outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
+                    }
+                    break;
+                case DUPLICATE:
+                    outputMessages.add(new OutputMessage(2001, PrintStyle.ONLY_TITLE));
+                    outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
+                    break;
+            }
+        }
+        else if (containerAvailability.equals(Availability.NON_EXISTENT)) {
+            switch (doorAvailability) {
+                case UNIQUE:
+                    if (keyItem != null) {
+                        outputMessages.addAll(openDoor(gameContext, openingItem));
+                    } else {
+                        outputMessages.add(new OutputMessage(1155, PrintStyle.ONLY_TITLE)); //item doesn't exist in inv.
+                        outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
+                    }
+                    break;
+                case DUPLICATE:
+                    outputMessages.add(new OutputMessage(2002, PrintStyle.ONLY_TITLE)); // duplicates exist
+                    outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
+                    break;
+            }
+        }
     }
 
     private List<OutputMessage> openItem (IGameContext gameContext, Word itemName) {
