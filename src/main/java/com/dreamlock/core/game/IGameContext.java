@@ -28,4 +28,6 @@ public interface IGameContext {
     void setMessageHandler(IMessageHandler messageHandler);
 
     void registerMessage(String s, int id);
+
+    boolean canMove();
 }

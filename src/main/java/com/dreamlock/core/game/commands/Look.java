@@ -25,18 +25,20 @@ public class Look implements ICommand {
     outputMessages.add(new OutputMessage(room.getId(), PrintStyle.ONLY_DESCRIPTION_IN_SAME_LINE));
 
     // add available doors to outputMessages
-    getAvailableDoors(gameContext, outputMessages);
+    outputMessages.addAll(getAvailableDoors(gameContext));
     // add available items to outputMessages
-    getAvailableItems(gameContext, outputMessages);
+    outputMessages.addAll(getAvailableItems(gameContext));
     // add available enemies to outputMessage
-    getAvailableEnemies(gameContext, outputMessages);
+    outputMessages.addAll(getAvailableEnemies(gameContext));
 
     outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
 
     return outputMessages;
   }
 
-  void getAvailableEnemies(IGameContext gameContext, List<OutputMessage> outputMessages) {
+  public List<OutputMessage> getAvailableEnemies(IGameContext gameContext) {
+    List<OutputMessage> outputMessages = new ArrayList<>();
+
     List<Enemy> enemies = gameContext.getCurrentRoom().getEnemies();
     boolean isAlive = false;
     for (Enemy enemy : enemies) {
@@ -55,9 +57,13 @@ public class Look implements ICommand {
         outputMessages.add(new OutputMessage(enemy.getId(), PrintStyle.ONLY_TITLE));
       }
     }
+
+    return outputMessages;
   }
 
-  void getAvailableItems(IGameContext gameContext, List<OutputMessage> outputMessages) {
+  private List<OutputMessage> getAvailableItems(IGameContext gameContext) {
+    List<OutputMessage> outputMessages = new ArrayList<>();
+
     List<Item> items = gameContext.getCurrentRoom().getItems();
     int numberOfItems = 0;
     for (Item item : items) {
@@ -78,9 +84,13 @@ public class Look implements ICommand {
         outputMessages.add(new OutputMessage(item.getId(), PrintStyle.ONLY_TITLE));
       }
     }
+
+    return outputMessages;
   }
 
-  private void getAvailableDoors(IGameContext gameContext, List<OutputMessage> outputMessages) {
+  private List<OutputMessage> getAvailableDoors(IGameContext gameContext) {
+    List<OutputMessage> outputMessages = new ArrayList<>();
+
     Map<String, Room> exits = gameContext.getCurrentRoom().getExits();
     if (exits.size() == 1) {
       outputMessages.add(new OutputMessage(1804, PrintStyle.ONLY_TITLE_IN_SAME_LINE));
@@ -98,6 +108,8 @@ public class Look implements ICommand {
         id++;
       }
     }
+
+    return outputMessages;
   }
 
   @Override

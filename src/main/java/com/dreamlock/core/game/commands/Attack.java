@@ -41,31 +41,32 @@ public class Attack implements ICommand {
         }
 
         if (enemiesFound == 1) {
-            return attackFoundEnemy(gameContext, outputMessages, foundEnemy);
+            return attackFoundEnemy(gameContext, foundEnemy);
         }
 
         outputMessages.add(new OutputMessage(1305, PrintStyle.ONLY_TITLE));
         return outputMessages;
     }
 
-    private List<OutputMessage> attackFoundEnemy(IGameContext gameContext,
-        List<OutputMessage> outputMessages, Enemy enemy) {
+    private List<OutputMessage> attackFoundEnemy(IGameContext gameContext, Enemy enemy) {
+        List<OutputMessage> outputMessages = new ArrayList<>();
         if (enemy.getHealth() > 0) {
-            attackEnemyHealth(gameContext, outputMessages, enemy);
+            outputMessages.addAll(attackEnemyHealth(gameContext, enemy));
         } else if (enemy.getHealth() <= 0) {
             outputMessages.add(new OutputMessage(1306, PrintStyle.ONLY_TITLE));
         }
 
         //When battle is still active change turn
         if (gameContext.getTurnBattle().activeBattle()) {
-            changeTurn(gameContext, outputMessages);
+            outputMessages.addAll(changeTurn(gameContext));
         }
 
         return outputMessages;
     }
 
-    private void attackEnemyHealth(IGameContext gameContext, List<OutputMessage> outputMessages,
+    private List<OutputMessage> attackEnemyHealth(IGameContext gameContext,
         Enemy enemy) {
+      List<OutputMessage> outputMessages = new ArrayList<>();
 
         outputMessages
             .add(new OutputMessage(enemy.getId(), PrintStyle.ONLY_TITLE_IN_SAME_LINE));
@@ -79,10 +80,13 @@ public class Attack implements ICommand {
                 .add(new OutputMessage(enemy.getId(), PrintStyle.ONLY_TITLE_IN_SAME_LINE));
             outputMessages.add(new OutputMessage(1307, PrintStyle.ONLY_TITLE));
         }
+        return outputMessages;
     }
 
-    private void changeTurn(IGameContext gameContext, List<OutputMessage> outputMessages) {
-        List<OutputMessage> templist = gameContext.getTurnBattle().nextTurn(gameContext);
+    private List<OutputMessage> changeTurn(IGameContext gameContext) {
+      List<OutputMessage> outputMessages = new ArrayList<>();
+
+      List<OutputMessage> templist = gameContext.getTurnBattle().nextTurn(gameContext);
         while (gameContext.getTurnBattle().activeBattle() && templist != null) {
             outputMessages.addAll(templist);
             templist = gameContext.getTurnBattle().nextTurn(gameContext);
@@ -92,5 +96,7 @@ public class Attack implements ICommand {
             outputMessages.add(new OutputMessage(1310, PrintStyle.ONLY_TITLE));
             outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
         }
+
+        return outputMessages;
     }
 }

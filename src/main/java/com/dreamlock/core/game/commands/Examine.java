@@ -24,35 +24,35 @@ public class Examine implements ICommand {
 
     @Override
     public List<OutputMessage> execute(IGameContext gameContext, Map<Sequence, Word> words) {
-        List<OutputMessage> outputMessages = new ArrayList<>();
         CommandUtils commandUtils = new CommandUtils(gameContext);
         Word word = words.get(Sequence.SECOND);
         List<Item> items = new ArrayList<>();
         items.addAll(commandUtils.inventoryItems);
         items.addAll(commandUtils.roomItems);
 
-         boolean isItem = examineItem(outputMessages, commandUtils, word, items);
+        List<OutputMessage> outputMessages = new ArrayList<>(
+            examineItem(commandUtils, word, items));
 
-        if (!isItem) {
-            examineDoor(words, outputMessages, commandUtils);
+        if (outputMessages.isEmpty()) {
+            outputMessages.addAll(examineDoor(words, outputMessages, commandUtils));
         }
 
         return outputMessages;
     }
 
-    private void examineDoor(Map<Sequence, Word> words, List<OutputMessage> outputMessages,
+    private List<OutputMessage> examineDoor(Map<Sequence, Word> words, List<OutputMessage> outputMessages,
         CommandUtils commandUtils) {
         Availability doorAvailability = commandUtils
             .checkDoorAvailability(words.get(Sequence.SECOND), commandUtils.roomDoors);
 
         switch (doorAvailability) {
             case NON_EXISTENT:
-                outputMessages.add(new OutputMessage(1020, PrintStyle.ONLY_TITLE));           // I can't find anything with that name!
+                outputMessages.add(new OutputMessage(1020, PrintStyle.ONLY_TITLE)); // I can't find anything with that name!
                 outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
                 break;
             case UNIQUE:
                 Door door = commandUtils.roomDoors.get(0);
-                outputMessages.add(new OutputMessage(door.getId(), PrintStyle.ONLY_DESCRIPTION_IN_SAME_LINE));   // item to print
+                outputMessages.add(new OutputMessage(door.getId(), PrintStyle.ONLY_DESCRIPTION_IN_SAME_LINE)); // item to print
                 if (door.isLocked()) {
                     outputMessages.add(new OutputMessage(2003, PrintStyle.ONLY_TITLE));
                 } else {
@@ -65,29 +65,30 @@ public class Examine implements ICommand {
                 outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
                 break;
         }
+
+        return outputMessages;
     }
 
-    private boolean examineItem(List<OutputMessage> outputMessages, CommandUtils commandUtils,
+    private List<OutputMessage> examineItem(CommandUtils commandUtils,
         Word word, List<Item> items) {
+        List<OutputMessage> outputMessages = new ArrayList<>();
         Availability itemAvailability = commandUtils.checkItemAvailability(word, items);
-        boolean isItem = false;
         switch (itemAvailability) {
             case NON_EXISTENT:
                 break;
             case UNIQUE:
-                isItem = examineUniqueItem(outputMessages, commandUtils, word);
+                outputMessages.addAll(examineUniqueItem(commandUtils, word));
                 break;
             case DUPLICATE:
-                isItem = true;
                 outputMessages.add(new OutputMessage(2001, PrintStyle.ONLY_TITLE));
                 outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
                 break;
         }
-        return isItem;
+        return outputMessages;
     }
 
-    private boolean examineUniqueItem(List<OutputMessage> outputMessages, CommandUtils commandUtils,
-        Word word) {
+    private List<OutputMessage> examineUniqueItem(CommandUtils commandUtils, Word word) {
+        List<OutputMessage> outputMessages = new ArrayList<>();
         Item item = commandUtils.getItem(word);
         if (item.getType().equals(ItemType.CONTAINER)) {            // if item is a container
             Container containerItem = (Container) item;
@@ -104,6 +105,7 @@ public class Examine implements ICommand {
             outputMessages.add(new OutputMessage(item.getId(), PrintStyle.TITLE_DESCRIPTION));
             outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
         }
-        return true;
+
+        return outputMessages;
     }
 }

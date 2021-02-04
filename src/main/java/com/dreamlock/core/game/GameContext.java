@@ -79,4 +79,10 @@ public class GameContext implements IGameContext, Serializable {
     public void registerMessage(String string, int id) {
         messageHandler.registerString(string, id);
     }
+
+    @Override
+    public boolean canMove() {
+        return this.getTurnBattle() == null || !this.getTurnBattle().activeBattle();
+    }
+
 }

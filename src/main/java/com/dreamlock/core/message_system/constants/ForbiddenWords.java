@@ -12,5 +12,4 @@ public enum ForbiddenWords {
     nigger,
     baka,
     malaka
-
 }
