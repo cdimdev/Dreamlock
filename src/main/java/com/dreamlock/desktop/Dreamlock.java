@@ -2,12 +2,15 @@ package com.dreamlock.desktop;
 
 import com.dreamlock.desktop.menu.EmptyChoice;
 import com.dreamlock.desktop.menu.IMenuChoice;
+import com.dreamlock.desktop.menu.MenuChoices;
 import com.dreamlock.desktop.menu.StartLoadedGameChoice;
 import com.dreamlock.desktop.menu.StartNewGameChoice;
 
+import java.awt.Menu;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import javax.swing.text.StyledEditorKit.BoldAction;
 
 public class Dreamlock {
     public static void main (String[] args) {
@@ -20,24 +23,21 @@ public class Dreamlock {
             IMenuChoice menuChoice;
             try {
                 input = buffer.readLine();
-                switch (input) {
-                    case "1":  //NEW GAME
-                        menuChoice = new StartNewGameChoice();
-                        break;
-                    case "2": //LOAD GAME
-                        menuChoice = new StartLoadedGameChoice();
-                        break;
-                    case "3": //EXIT
-                        menuChoice = new EmptyChoice();
-                        MainGameRunning = false;
-                        System.out.println("Goodbye! Farewell Traveler!!");
-                        break;
-                    default:
-                        menuChoice = new EmptyChoice();
-                        System.out.println("Not a valid choice!");
-                        break;
+                MenuChoices chosenOption = MenuChoices.values()[Integer.parseInt(input)];
+
+                if(chosenOption != null) {
+                  menuChoice = chosenOption.getMenuChoice();
+
+                  if(menuChoice.equals(new EmptyChoice())) {
+                    MainGameRunning = false;
+                    System.out.println("Goodbye! Farewell Traveler!!");
+                  }
+
+                  menuChoice.run();
+
+                } else {
+                  System.out.println("Invalid Option");
                 }
-                menuChoice.run();
             } catch (IOException e) {
                 e.printStackTrace();
             }
