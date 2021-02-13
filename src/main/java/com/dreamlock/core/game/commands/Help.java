@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Help implements ICommand  {
+public class Help extends AbstractCommand  {
     @Override
     public List<OutputMessage> execute(IGameContext gameContext) {
         List<OutputMessage> outputMessages = new ArrayList<>();
@@ -21,10 +21,5 @@ public class Help implements ICommand  {
         }
         outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
         return outputMessages;
-    }
-
-    @Override
-    public List<OutputMessage> execute(IGameContext gameContext, Map<Sequence, Word> words) {
-        return null;
     }
 }

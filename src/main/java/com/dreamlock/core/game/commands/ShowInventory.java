@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ShowInventory implements ICommand{
+public class ShowInventory extends AbstractCommand{
     @Override
     public List<OutputMessage> execute(IGameContext gameContext) {
         List<OutputMessage> output = new ArrayList<>();
@@ -31,10 +31,5 @@ public class ShowInventory implements ICommand{
         }
         output.add(new OutputMessage(0, PrintStyle.BREAK));
         return output;
-    }
-
-    @Override
-    public List<OutputMessage> execute(IGameContext gameContext, Map<Sequence, Word> words) {
-       return null;
     }
 }

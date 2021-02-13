@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Reload implements ICommand {
+public class Reload extends AbstractCommand {
     @Override
     public List<OutputMessage> execute(IGameContext gameContext) {
         List<OutputMessage> outputMessages = new ArrayList<>();
@@ -35,10 +35,5 @@ public class Reload implements ICommand {
             outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
         }
         return outputMessages;
-    }
-
-    @Override
-    public List<OutputMessage> execute(IGameContext gameContext, Map<Sequence, Word> words) {
-        return null;
     }
 }

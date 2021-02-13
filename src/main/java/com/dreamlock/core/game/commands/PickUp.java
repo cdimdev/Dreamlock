@@ -13,12 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PickUp implements ICommand {
-    @Override
-    public List<OutputMessage> execute(IGameContext gameContext) {
-        return null;
-    }
-
+public class PickUp extends AbstractCommand {
     @Override
     public List<OutputMessage> execute(IGameContext gameContext, Map<Sequence, Word> words) {
         List<OutputMessage> outputMessages = new ArrayList<>();

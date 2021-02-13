@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Random;
 
 
-public class Flee implements ICommand {
+public class Flee extends AbstractCommand {
     @Override
     public List<OutputMessage> execute(IGameContext gameContext) {
         List<OutputMessage> outputMessages = new ArrayList<>();
@@ -44,10 +44,5 @@ public class Flee implements ICommand {
         outputMessages.add(new OutputMessage(0, PrintStyle.BREAK));
 
         return outputMessages;
-    }
-
-    @Override
-    public List<OutputMessage> execute(IGameContext gameContext, Map<Sequence, Word> words) {
-        return null;
     }
 }

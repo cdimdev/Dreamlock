@@ -12,12 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Go implements ICommand {
-    @Override
-    public List<OutputMessage> execute(IGameContext gameContext) {
-        return null;
-    }
-
+public class Go extends AbstractCommand {
     @Override
     public List<OutputMessage> execute(IGameContext gameContext, Map<Sequence, Word> words) {
         String direction = words.get(Sequence.SECOND).getDescription();

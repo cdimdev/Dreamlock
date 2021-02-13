@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Look implements ICommand {
+public class Look extends AbstractCommand {
 
   @Override
   public List<OutputMessage> execute(IGameContext gameContext) {
@@ -110,10 +110,5 @@ public class Look implements ICommand {
     }
 
     return outputMessages;
-  }
-
-  @Override
-  public List<OutputMessage> execute(IGameContext gameContext, Map<Sequence, Word> words) {
-    return null;
   }
 }
